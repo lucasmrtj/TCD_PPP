@@ -6,13 +6,15 @@ public abstract class MainFrame extends JFrame  {
 
     // hotspot
     protected abstract AbstractBoard createBoard();
+	protected abstract int getBoardWidth();
+	protected abstract int getBoardHeight();
     
     public MainFrame(String t) {
           
         add(createBoard());
 		
 		setTitle(t);
-		setSize(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+		setSize(getBoardWidth(), getBoardHeight());
 		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);

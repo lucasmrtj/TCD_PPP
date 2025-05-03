@@ -22,8 +22,8 @@ public class SpaceInvadersBoard extends AbstractBoard{
     private int deaths = 0;
     private String explImg = "images/explosion.png";
 
-    public SpaceInvadersBoard(){
-        super(Commons.PLAYER_IMAGE);
+    public SpaceInvadersBoard( int BOARD_HEIGHT, int BOARD_WIDTH){
+        super(Commons.PLAYER_IMAGE, BOARD_HEIGHT, BOARD_WIDTH);
     }
 
     protected void createBadSprites() {  // create sprites

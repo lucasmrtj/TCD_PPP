@@ -25,22 +25,12 @@ import java.util.LinkedList;
 public abstract class AbstractBoard extends JPanel {
 
     protected Dimension d;
-    
-    //define sprites
-//    private List<Alien> aliens;
+
     protected LinkedList<Player> players;
-    
     protected LinkedList<BadSprite> badSprites;
-    
-//    private Shot shot;
-//    
-    // define global control vars   
-//    private int direction = -1;
-//    private int deaths = 0;
 
     private int numberPlayers;  // to do - future use
     protected boolean inGame = true;
-//    private String explImg = "src/images/explosion.png";
     protected String message = "Game Over";
 
     protected Timer timer;
@@ -55,9 +45,15 @@ public abstract class AbstractBoard extends JPanel {
     protected abstract void update();
     protected abstract void processOtherSprites(Player player, KeyEvent e);
     protected String playerImage;
+    protected int BOARD_HEIGHT;
+    protected int BOARD_WIDTH;
 
-    public AbstractBoard(String playerImage) {
+    public AbstractBoard(String playerImage, int BOARD_HEIGHT, int BOARD_WIDTH) {
+        // Para facilitar a vida na hora de montar o board
         this.playerImage = playerImage;
+        this.BOARD_HEIGHT = BOARD_HEIGHT;
+        this.BOARD_WIDTH = BOARD_WIDTH;
+
         initBoard();
         numberPlayers = 1;
         badSprites = new LinkedList<BadSprite>();
@@ -70,7 +66,7 @@ public abstract class AbstractBoard extends JPanel {
 
     	addKeyListener(new TAdapter());
     	setFocusable(true);
-    	d = new Dimension(Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+    	d = new Dimension(BOARD_WIDTH, BOARD_HEIGHT);
     	setBackground(Color.black);
 
     	timer = new Timer(Commons.DELAY, new GameCycle());
@@ -81,7 +77,6 @@ public abstract class AbstractBoard extends JPanel {
     	badSprites = new LinkedList<BadSprite>();
     	createBadSprites();
     	createOtherSprites();
-		//        shot = new Shot();
     }
 
 
@@ -135,10 +130,6 @@ public abstract class AbstractBoard extends JPanel {
     	}
     }
 
-
-
-
-
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -158,55 +149,48 @@ public abstract class AbstractBoard extends JPanel {
 
         if (inGame) {
 
-            g.drawLine(0, Commons.GROUND,
-                    Commons.BOARD_WIDTH, Commons.GROUND);
+            // Isso precisa sair daqui para podermos implentar mais variabilidade
+            /*
+            g.drawLine(0, Commons.GROUND, Commons.BOARD_WIDTH, Commons.GROUND);
+             */
 
             drawBadSprites(g);
             drawPlayers(g);
             drawOtherSprites(g);
 
         } else {
-
             if (timer.isRunning()) {
                 timer.stop();
             }
-
             gameOver(g);
         }
-
         Toolkit.getDefaultToolkit().sync();
     }
 
     private void gameOver(Graphics g) {
-
         g.setColor(Color.black);
-        g.fillRect(0, 0, Commons.BOARD_WIDTH, Commons.BOARD_HEIGHT);
+        g.fillRect(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
 
         g.setColor(new Color(0, 32, 48));
-        g.fillRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
+        g.fillRect(50, BOARD_WIDTH / 2 - 30, BOARD_WIDTH - 100, 50);
         g.setColor(Color.white);
-        g.drawRect(50, Commons.BOARD_WIDTH / 2 - 30, Commons.BOARD_WIDTH - 100, 50);
+        g.drawRect(50, BOARD_WIDTH / 2 - 30, BOARD_WIDTH - 100, 50);
 
         Font small = new Font("Helvetica", Font.BOLD, 14);
         FontMetrics fontMetrics = this.getFontMetrics(small);
 
         g.setColor(Color.white);
         g.setFont(small);
-        g.drawString(message, (Commons.BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2,
-                Commons.BOARD_WIDTH / 2);
+        g.drawString(message, (BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2,
+                BOARD_WIDTH / 2);
     }
-
-
 
     private void doGameCycle() {
         update();
         repaint();
     }
 
-
-
 	private class GameCycle implements ActionListener {
-
         @Override
         public void actionPerformed(ActionEvent e) {
             doGameCycle();
@@ -214,7 +198,6 @@ public abstract class AbstractBoard extends JPanel {
     }
 
     private class TAdapter extends KeyAdapter {
-
         @Override
         public void keyReleased(KeyEvent e) {
             for (Player player: players)
@@ -225,7 +208,6 @@ public abstract class AbstractBoard extends JPanel {
         public void keyPressed(KeyEvent e) {
         	for (Player player: players) {
                 player.keyPressed(e);
-
                 processOtherSprites(player, e); // hotspot
         	}
         }

@@ -13,9 +13,18 @@ public class SpaceInvadersGame extends MainFrame {
 	}
 	
 	protected  AbstractBoard createBoard() {
-		return new SpaceInvadersBoard();
+		return new SpaceInvadersBoard(getBoardHeight(), getBoardWidth());
 	}
 
+	@Override
+	protected int getBoardWidth() {
+		return Commons.BOARD_WIDTH;
+	}
+
+	@Override
+	protected int getBoardHeight() {
+		return Commons.BOARD_HEIGHT;
+	}
 
 	public static void main(String[] args) {
 

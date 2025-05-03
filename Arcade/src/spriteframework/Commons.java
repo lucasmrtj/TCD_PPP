@@ -1,8 +1,7 @@
 package spriteframework;
 
 public interface Commons {
-    int GROUND = 290;
-    
+
     int BOARD_WIDTH = 500;
     int BOARD_HEIGHT = 500;
     int BORDER_RIGHT = 30;
