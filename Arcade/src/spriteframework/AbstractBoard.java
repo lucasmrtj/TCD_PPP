@@ -199,7 +199,6 @@ public abstract class AbstractBoard extends JPanel {
 
 
     private void doGameCycle() {
-
         update();
         repaint();
     }

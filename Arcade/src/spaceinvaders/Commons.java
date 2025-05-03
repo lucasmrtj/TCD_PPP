@@ -10,7 +10,9 @@ public interface Commons extends spriteframework.Commons{
     int ALIEN_INIT_Y = 5;
 
     int GO_DOWN = 15;
-    int NUMBER_OF_ALIENS_TO_DESTROY = 24;
+    int NUMBER_OF_ALIENS_ROW = 4;
+    int NUMBER_OF_ALIENS_COL = 6;
+    int NUMBER_OF_ALIENS_TO_DESTROY = NUMBER_OF_ALIENS_ROW * NUMBER_OF_ALIENS_COL;
     int CHANCE = 5;
     int PLAYER_WIDTH = 15;
     int PLAYER_HEIGHT = 10;

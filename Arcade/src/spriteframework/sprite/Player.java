@@ -8,7 +8,6 @@ import java.awt.Image;
 import java.awt.event.KeyEvent;
 
 public class Player extends Sprite {
-
     private int width;
 
     public Player(String playerImage) {
