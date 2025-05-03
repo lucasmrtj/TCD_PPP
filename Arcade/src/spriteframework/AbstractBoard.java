@@ -59,11 +59,11 @@ public abstract class AbstractBoard extends JPanel {
 
         initBoard();
         createPlayers();
-		        numberPlayers = 1;
-		        badSprites = new LinkedList<BadSprite>();
-		        createBadSprites();
-		        createOtherSprites();
-		//        shot = new Shot();
+        numberPlayers = 1;
+        badSprites = new LinkedList<BadSprite>();
+        createBadSprites();
+        createOtherSprites();
+		//shot = new Shot();
     }
 
     private void initBoard() {
@@ -94,25 +94,23 @@ public abstract class AbstractBoard extends JPanel {
 		return new Player();
 	}
 
-   public Player getPlayer(int i) {
+    public Player getPlayer(int i) {
 	   if (i >=0 && i<players.size())
 		   return players.get(i);
 	   return null;
-   }
+    }
    
     private void drawBadSprites(Graphics g) {
 
         for (BadSprite bad : badSprites) {
-
             if (bad.isVisible()) {
-
                 g.drawImage(bad.getImage(), bad.getX(), bad.getY(), this);
             }
 
             if (bad.isDying()) {
-
                 bad.die();
             }
+
             if (bad.getBadnesses()!= null) {
             	for (BadSprite badness: bad.getBadnesses()) {
             		if (!badness.isDestroyed()) {
@@ -212,7 +210,6 @@ public abstract class AbstractBoard extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
             doGameCycle();
         }
     }

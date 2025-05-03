@@ -1,0 +1,192 @@
+@startuml
+
+!define abstract abstract
+!define interface interface
+
+package "spriteframework" {
+  interface Commons {
+    +GROUND: int
+    +BOARD_WIDTH: int
+    +BOARD_HEIGHT: int
+    +BORDER_RIGHT: int
+    +BORDER_LEFT: int
+    +INIT_PLAYER_X: int
+    +INIT_PLAYER_Y: int
+    +DELAY: int
+  }
+
+  abstract class AbstractBoard {
+    -d: Dimension
+    -players: LinkedList<Player>
+    -badSprites: LinkedList<BadSprite>
+    -numberPlayers: int
+    -inGame: boolean
+    -message: String
+    -timer: Timer
+    --
+    +AbstractBoard()
+    #createBadSprites() {abstract}
+    #createOtherSprites() {abstract}
+    #drawOtherSprites(Graphics g) {abstract}
+    #update() {abstract}
+    #processOtherSprites(Player, KeyEvent) {abstract}
+    +getPlayer(int): Player
+    -initBoard()
+    -createPlayers()
+    #createPlayer(): Player
+    -drawBadSprites(Graphics)
+    -drawPlayers(Graphics)
+    +paintComponent(Graphics)
+    -doDrawing(Graphics)
+    -gameOver(Graphics)
+    -doGameCycle()
+    +GameCycle inner class
+    +TAdapter inner class
+  }
+
+  abstract class MainFrame {
+    +createBoard(): AbstractBoard {abstract}
+    +MainFrame(String)
+  }
+
+  AbstractBoard "1" *-- "0..*" Player : contains
+  AbstractBoard "1" *-- "0..*" BadSprite : contains
+  AbstractBoard ..> Commons : uses
+  MainFrame --> AbstractBoard : creates
+}
+
+package "spriteframework.sprite" {
+  class Sprite {
+    -visible: boolean
+    -image: Image
+    -dying: boolean
+    -x: int
+    -y: int
+    -imageWidth: int
+    -imageHeight: int
+    -dx: int
+    --
+    +die()
+    +getRect(): Rectangle
+    +getImageDimensions()
+    #setDying(boolean)
+    +moveX(int)
+    +moveY(int)
+  }
+
+  abstract class BadSprite {
+    +getBadnesses(): LinkedList<BadSprite>
+    +isDestroyed(): boolean
+    +act()
+  }
+
+  class BadnessBoxSprite {
+    -badnesses: LinkedList<BadSprite>
+    --
+    +add(BadSprite)
+    +getBadnesses(): LinkedList<BadSprite>
+  }
+
+  class Player {
+    -width: int
+    --
+    +act()
+    +keyPressed(KeyEvent)
+    +keyReleased(KeyEvent)
+    -resetState()
+  }
+
+  Sprite <|-- BadSprite
+  BadSprite <|-- BadnessBoxSprite
+  Sprite <|-- Player
+  BadnessBoxSprite "1" *-- "0..*" BadSprite : contains
+}
+
+' Relações framework arcade
+Player --> Commons : uses
+BadnessBoxSprite --> BadSprite : contains
+AbstractBoard --> Player : creates
+AbstractBoard --> BadSprite : creates
+MainFrame --> JFrame
+AbstractBoard --> JPanel
+
+package "spaceinvaders" {
+  interface Commons extends spriteframework.Commons {
+    +BOMB_HEIGHT: int
+    +ALIEN_HEIGHT: int
+    +ALIEN_WIDTH: int
+    +ALIEN_INIT_X: int
+    +ALIEN_INIT_Y: int
+    +GO_DOWN: int
+    +NUMBER_OF_ALIENS_TO_DESTROY: int
+    +CHANCE: int
+    +PLAYER_WIDTH: int
+    +PLAYER_HEIGHT: int
+  }
+
+  class SpaceInvadersBoard extends spriteframework.AbstractBoard {
+    -shot: Shot
+    -direction: int
+    -deaths: int
+    -explImg: String
+    --
+    +createBadSprites()
+    +createOtherSprites()
+    +drawOtherSprites(Graphics)
+    +processOtherSprites(Player, KeyEvent)
+    +update()
+    -drawShot(Graphics)
+    -updateOtherSprites()
+  }
+
+  class SpaceInvadersGame extends spriteframework.MainFrame {
+    +SpaceInvadersGame()
+    +createBoard(): AbstractBoard
+    +main(String[])
+  }
+}
+
+package "spaceinvaders.sprite" {
+  class Bomb extends spriteframework.sprite.BadSprite {
+    -destroyed: boolean
+    --
+    +Bomb(int, int)
+    +setDestroyed(boolean)
+    +isDestroyed(): boolean
+  }
+
+  class BomberSprite extends spriteframework.sprite.BadnessBoxSprite {
+    -bomb: Bomb
+    --
+    +BomberSprite(int, int)
+    +getBomb(): Bomb
+    +getBadnesses(): LinkedList<BadSprite>
+  }
+
+  class Shot extends BadSprite {
+    +Shot()
+    +Shot(int, int)
+    -initShot(int, int)
+  }
+}
+
+' Relações principais Space Invaders
+SpaceInvadersGame --> SpaceInvadersBoard : creates
+SpaceInvadersBoard --> BomberSprite : creates
+SpaceInvadersBoard --> Shot : creates
+BomberSprite "1" *-- "1" Bomb : contains
+BomberSprite --> Bomb : creates
+SpaceInvadersBoard --> Bomb : interacts
+SpaceInvadersBoard --> Commons : uses
+Bomb --> Commons : uses
+Shot --> Commons : uses
+
+' Heranças
+SpaceInvadersGame --|> MainFrame
+SpaceInvadersBoard --|> AbstractBoard
+Bomb --|> BadSprite
+BomberSprite --|> BadnessBoxSprite
+Shot --|> BadSprite
+spaceinvaders.Commons --|> spriteframework.Commons
+
+@enduml

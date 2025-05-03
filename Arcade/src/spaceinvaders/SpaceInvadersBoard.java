@@ -23,12 +23,7 @@ public class SpaceInvadersBoard extends AbstractBoard{
     // define global control vars   
     private int direction = -1;
     private int deaths = 0;
-
-
-    private String explImg = "/explosion.png";
-
-
-
+    private String explImg = "images/explosion.png";
 
     protected void createBadSprites() {  // create sprites
         for (int i = 0; i < 4; i++) {
@@ -64,11 +59,8 @@ public class SpaceInvadersBoard extends AbstractBoard{
 		int key = e.getKeyCode();
 
 		if (key == KeyEvent.VK_SPACE) {
-
 			if (inGame) {
-
 				if (!shot.isVisible()) {
-
 					shot = new Shot(x, y);
 				}
 			}
@@ -95,9 +87,7 @@ public class SpaceInvadersBoard extends AbstractBoard{
 //    }
 
     protected void update() {
-
         if (deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
-
             inGame = false;
             timer.stop();
             message = "Game won!";
