@@ -11,14 +11,14 @@ public class Player extends Sprite {
 
     private int width;
 
-    public Player() {
-        loadImage();
+    public Player(String playerImage) {
+        loadImage(playerImage);
 		getImageDimensions();
 		resetState();
     }
 
-    protected void loadImage () {
-        ImageIcon ii = new ImageIcon(this.getClass().getResource("/player.png"));
+    protected void loadImage (String playerImage) {
+        ImageIcon ii = new ImageIcon(this.getClass().getResource(playerImage));
         width = ii.getImage().getWidth(null);
         setImage(ii.getImage());
     }

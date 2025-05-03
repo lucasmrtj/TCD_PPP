@@ -54,11 +54,11 @@ public abstract class AbstractBoard extends JPanel {
     protected abstract void drawOtherSprites(Graphics g);
     protected abstract void update();
     protected abstract void processOtherSprites(Player player, KeyEvent e);
+    protected String playerImage;
 
-    public AbstractBoard() {
-
+    public AbstractBoard(String playerImage) {
+        this.playerImage = playerImage;
         initBoard();
-        createPlayers();
         numberPlayers = 1;
         badSprites = new LinkedList<BadSprite>();
         createBadSprites();
@@ -91,7 +91,7 @@ public abstract class AbstractBoard extends JPanel {
 	}
 	
 	protected Player createPlayer() {
-		return new Player();
+		return new Player(playerImage);
 	}
 
     public Player getPlayer(int i) {
