@@ -30,9 +30,7 @@ public class BomberSprite extends BadnessBoxSprite {
     }
 
 
-
     public Bomb getBomb() {
-
         return bomb;
     }
 

@@ -28,7 +28,7 @@ public class SpaceInvadersBoard extends AbstractBoard{
 
     protected void createBadSprites() {  // create sprites
         for (int i = 0; i < Commons.NUMBER_OF_ALIENS_ROW; i++) {
-            for (int j = 0; j < Commons.NUMBER_OF_ALIENS_ROW; j++) {
+            for (int j = 0; j < Commons.NUMBER_OF_ALIENS_COL; j++) {
                 BomberSprite alien = new BomberSprite(Commons.ALIEN_INIT_X + 18 * j,
                         Commons.ALIEN_INIT_Y + 18 * i);
                 badSprites.add(alien);
@@ -186,7 +186,7 @@ public class SpaceInvadersBoard extends AbstractBoard{
 
         for (BadSprite alien : badSprites) {
 
-            int shot = generator.nextInt(15);
+            int shot = generator.nextInt(10);
             Bomb bomb = ((BomberSprite)alien).getBomb();
 
             if (shot == Commons.CHANCE && alien.isVisible() && bomb.isDestroyed()) {

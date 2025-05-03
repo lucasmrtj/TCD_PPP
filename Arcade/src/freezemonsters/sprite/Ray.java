@@ -10,7 +10,7 @@ public class Ray extends BadSprite {
     }
 
     public Ray(int x, int y) {
-        initShot(x, y);
+        initRay(x, y);
     }
 
     private void initRay(int x, int y) {
