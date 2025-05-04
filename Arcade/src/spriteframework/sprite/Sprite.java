@@ -15,6 +15,7 @@ public class Sprite {
     protected int imageHeight;
     protected int dx;
 
+
     public Sprite() {
         visible = true;
     }

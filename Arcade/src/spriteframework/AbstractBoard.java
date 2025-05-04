@@ -44,6 +44,10 @@ public abstract class AbstractBoard extends JPanel {
     protected abstract void drawOtherSprites(Graphics g);
     protected abstract void update();
     protected abstract void processOtherSprites(Player player, KeyEvent e);
+    protected abstract int getDelay();
+    protected abstract int getINIT_PLAYER_X();
+    protected abstract int getINIT_PLAYER_Y();
+
     protected String playerImage;
     protected int BOARD_HEIGHT;
     protected int BOARD_WIDTH;
@@ -53,7 +57,7 @@ public abstract class AbstractBoard extends JPanel {
         this.playerImage = playerImage;
         this.BOARD_HEIGHT = BOARD_HEIGHT;
         this.BOARD_WIDTH = BOARD_WIDTH;
-
+        System.out.println(getDelay());
         initBoard();
         numberPlayers = 1;
         badSprites = new LinkedList<BadSprite>();
@@ -69,7 +73,7 @@ public abstract class AbstractBoard extends JPanel {
     	d = new Dimension(BOARD_WIDTH, BOARD_HEIGHT);
     	setBackground(Color.black);
 
-    	timer = new Timer(Commons.DELAY, new GameCycle());
+    	timer = new Timer(getDelay(), new GameCycle());
     	timer.start();
 
     	createPlayers();
@@ -86,7 +90,7 @@ public abstract class AbstractBoard extends JPanel {
 	}
 	
 	protected Player createPlayer() {
-		return new Player(playerImage);
+		return new Player(playerImage, BOARD_HEIGHT, BOARD_WIDTH, getINIT_PLAYER_X(), getINIT_PLAYER_Y());
 	}
 
     public Player getPlayer(int i) {

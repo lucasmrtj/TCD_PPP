@@ -2,15 +2,22 @@ package spriteframework.sprite;
 
 import javax.swing.ImageIcon;
 
-import spriteframework.Commons;
+import spriteframework.GameConfig;
 
-import java.awt.Image;
 import java.awt.event.KeyEvent;
 
 public class Player extends Sprite {
     private int width;
+    protected int BOARD_HEIGHT, BOARD_WIDTH;
+    protected int INIT_PLAYER_X, INIT_PLAYER_Y;
 
-    public Player(String playerImage) {
+    public Player(String playerImage, int BOARD_HEIGHT, int BOARD_WIDTH, int INIT_PLAYER_X, int INIT_PLAYER_Y) {
+        super();
+        this.BOARD_HEIGHT = BOARD_HEIGHT;
+        this.BOARD_WIDTH = BOARD_WIDTH;
+        this.INIT_PLAYER_X = INIT_PLAYER_X;
+        this.INIT_PLAYER_Y = INIT_PLAYER_Y;
+
         loadImage(playerImage);
 		getImageDimensions();
 		resetState();
@@ -29,8 +36,8 @@ public class Player extends Sprite {
             x = 2;
         }
 
-        if (x >= Commons.BOARD_WIDTH - 2 * width) {
-            x = Commons.BOARD_WIDTH - 2 * width;
+        if (x >= BOARD_WIDTH - 2 * width) {
+            x = BOARD_WIDTH - 2 * width;
         }
     }
 
@@ -59,7 +66,7 @@ public class Player extends Sprite {
     }
     private void resetState() {
 
-        setX(Commons.INIT_PLAYER_X);
-        setY(Commons.INIT_PLAYER_Y);
+        setX(INIT_PLAYER_X);
+        setY(INIT_PLAYER_Y);
     }
 }

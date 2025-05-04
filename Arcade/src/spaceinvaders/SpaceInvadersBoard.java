@@ -12,7 +12,7 @@ import spriteframework.sprite.Player;
 
 import spaceinvaders.sprite.*;
 
-public class SpaceInvadersBoard extends AbstractBoard{  
+public class SpaceInvadersBoard extends AbstractBoard {
     //define sprites
     //private List<BadSprite> aliens;
     private Shot shot;    
@@ -23,14 +23,19 @@ public class SpaceInvadersBoard extends AbstractBoard{
     private String explImg = "images/explosion.png";
 
     public SpaceInvadersBoard( int BOARD_HEIGHT, int BOARD_WIDTH){
-        super(Commons.PLAYER_IMAGE, BOARD_HEIGHT, BOARD_WIDTH);
+        super(SpaceInvadersConfig.getInstance().getPLAYER_IMAGE(), BOARD_HEIGHT, BOARD_WIDTH);
     }
 
     protected void createBadSprites() {  // create sprites
-        for (int i = 0; i < Commons.NUMBER_OF_ALIENS_ROW; i++) {
-            for (int j = 0; j < Commons.NUMBER_OF_ALIENS_COL; j++) {
-                BomberSprite alien = new BomberSprite(Commons.ALIEN_INIT_X + 18 * j,
-                        Commons.ALIEN_INIT_Y + 18 * i);
+        int NUMBER_OF_ALIENS_ROW = SpaceInvadersConfig.getInstance().getNUMBER_OF_ALIENS_ROW();
+        int NUMBER_OF_ALIENS_COL = SpaceInvadersConfig.getInstance().getNUMBER_OF_ALIENS_COL();
+        int ALIEN_INIT_X = SpaceInvadersConfig.getInstance().getALIEN_INIT_X();
+        int ALIEN_INIT_Y = SpaceInvadersConfig.getInstance().getALIEN_INIT_Y();
+
+        for (int i = 0; i < NUMBER_OF_ALIENS_ROW; i++) {
+            for (int j = 0; j < NUMBER_OF_ALIENS_COL; j++) {
+                BomberSprite alien = new BomberSprite(ALIEN_INIT_X + 18 * j,
+                        ALIEN_INIT_Y + 18 * i);
                 badSprites.add(alien);
             }
         }
@@ -41,9 +46,7 @@ public class SpaceInvadersBoard extends AbstractBoard{
     }
 
     private void drawShot(Graphics g) {
-
         if (shot.isVisible()) {
-
             g.drawImage(shot.getImage(), shot.getX(), shot.getY(), this);
         }
     }
@@ -88,7 +91,8 @@ public class SpaceInvadersBoard extends AbstractBoard{
 //    }
 
     protected void update() {
-        if (deaths == Commons.NUMBER_OF_ALIENS_TO_DESTROY) {
+
+        if (deaths == SpaceInvadersConfig.getInstance().getNUMBER_OF_ALIENS_TO_DESTROY()) {
             inGame = false;
             timer.stop();
             message = "Game won!";
@@ -111,9 +115,9 @@ public class SpaceInvadersBoard extends AbstractBoard{
 
                 if (alien.isVisible() && shot.isVisible()) {
                     if (shotX >= (alienX)
-                            && shotX <= (alienX + Commons.ALIEN_WIDTH)
+                            && shotX <= (alienX + SpaceInvadersConfig.getInstance().getALIEN_WIDTH())
                             && shotY >= (alienY)
-                            && shotY <= (alienY + Commons.ALIEN_HEIGHT)) {
+                            && shotY <= (alienY +SpaceInvadersConfig.getInstance().getALIEN_HEIGHT())) {
 
                         ImageIcon ii = new ImageIcon(explImg);
                         alien.setImage(ii.getImage());
@@ -138,7 +142,7 @@ public class SpaceInvadersBoard extends AbstractBoard{
         for (BadSprite alien : badSprites) {
             int x = alien.getX();
 
-            if (x >= Commons.BOARD_WIDTH - Commons.BORDER_RIGHT && direction != -1) {
+            if (x >= BOARD_WIDTH - SpaceInvadersConfig.getInstance().getBORDER_RIGHT() && direction != -1) {
 
                 direction = -1;
 
@@ -146,11 +150,11 @@ public class SpaceInvadersBoard extends AbstractBoard{
 
                 while (i1.hasNext()) {
                     BadSprite a2 = i1.next();
-                    a2.setY(a2.getY() + Commons.GO_DOWN);
+                    a2.setY(a2.getY() + SpaceInvadersConfig.getInstance().getGO_DOWN());
                 }
             }
 
-            if (x <= Commons.BORDER_LEFT && direction != 1) {
+            if (x <= SpaceInvadersConfig.getInstance().getBORDER_LEFT() && direction != 1) {
 
                 direction = 1;
 
@@ -159,7 +163,7 @@ public class SpaceInvadersBoard extends AbstractBoard{
                 while (i2.hasNext()) {
 
                     BadSprite a = i2.next();
-                    a.setY(a.getY() + Commons.GO_DOWN);
+                    a.setY(a.getY() + SpaceInvadersConfig.getInstance().getGO_DOWN());
                 }
             }
         }
@@ -170,7 +174,7 @@ public class SpaceInvadersBoard extends AbstractBoard{
             BadSprite alien = it.next();
             if (alien.isVisible()) {
                 int y = alien.getY();
-                if (y > Commons.GROUND - Commons.ALIEN_HEIGHT) {
+                if (y > SpaceInvadersConfig.getInstance().getGROUND() - SpaceInvadersConfig.getInstance().getALIEN_HEIGHT()) {
                     inGame = false;
                     message = "Invasion!";
                 }
@@ -189,7 +193,7 @@ public class SpaceInvadersBoard extends AbstractBoard{
             int shot = generator.nextInt(10);
             Bomb bomb = ((BomberSprite)alien).getBomb();
 
-            if (shot == Commons.CHANCE && alien.isVisible() && bomb.isDestroyed()) {
+            if (shot == SpaceInvadersConfig.getInstance().getCHANCE() && alien.isVisible() && bomb.isDestroyed()) {
                 bomb.setDestroyed(false);
                 bomb.setX(alien.getX());
                 bomb.setY(alien.getY());
@@ -202,9 +206,9 @@ public class SpaceInvadersBoard extends AbstractBoard{
 
             if (players.get(0).isVisible() && !bomb.isDestroyed()) {
                 if (bombX >= (playerX)
-                        && bombX <= (playerX + Commons.PLAYER_WIDTH)
+                        && bombX <= (playerX + SpaceInvadersConfig.getInstance().getPLAYER_WIDTH())
                         && bombY >= (playerY)
-                        && bombY <= (playerY + Commons.PLAYER_HEIGHT))
+                        && bombY <= (playerY + SpaceInvadersConfig.getInstance().getPLAYER_HEIGHT()))
                 {
                     ImageIcon ii = new ImageIcon(explImg);
                     players.get(0).setImage(ii.getImage());
@@ -215,11 +219,23 @@ public class SpaceInvadersBoard extends AbstractBoard{
 
             if (!bomb.isDestroyed()) {
                 bomb.setY(bomb.getY() + 1);
-                if (bomb.getY() >= Commons.GROUND - Commons.BOMB_HEIGHT) {
+                if (bomb.getY() >= SpaceInvadersConfig.getInstance().getGROUND() - SpaceInvadersConfig.getInstance().getBOMB_HEIGHT()) {
                     bomb.setDestroyed(true);
                 }
             }
         }
-	}    
+	}
+
+    protected int getDelay(){
+        return SpaceInvadersConfig.getInstance().getDELAY();
+    }
+
+    protected int getINIT_PLAYER_X(){
+        return SpaceInvadersConfig.getInstance().getINIT_PLAYER_X();
+    }
+
+    protected int getINIT_PLAYER_Y(){
+        return SpaceInvadersConfig.getInstance().getINIT_PLAYER_Y();
+    }
 }
 

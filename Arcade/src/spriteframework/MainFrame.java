@@ -10,12 +10,10 @@ public abstract class MainFrame extends JFrame  {
 	protected abstract int getBoardHeight();
     
     public MainFrame(String t) {
-          
+
         add(createBoard());
-		
 		setTitle(t);
 		setSize(getBoardWidth(), getBoardHeight());
-		
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setResizable(false);
 		setLocationRelativeTo(null);

@@ -11,8 +11,8 @@ public class FreezeMonstersBoard extends AbstractBoard {
 
     private Ray ray;
 
-    public FreezeMonstersBoard(){
-        super("/woody.png");
+    public FreezeMonstersBoard(int BOARD_HEIGHT, int BOARD_WIDTH){
+        super(FreezeMonstersConfig.getInstance().getPLAYER_IMAGE(), BOARD_HEIGHT, BOARD_WIDTH);
     }
 
     protected void createBadSprites(){
@@ -33,5 +33,20 @@ public class FreezeMonstersBoard extends AbstractBoard {
 
     protected void processOtherSprites(Player player, KeyEvent e){
         ;
+    }
+
+    @Override
+    public int getDelay(){
+        return 1;
+    }
+
+    @Override
+    public int getINIT_PLAYER_X(){
+        return 1;
+    }
+
+    @Override
+    public int getINIT_PLAYER_Y(){
+        return 1;
     }
 }
