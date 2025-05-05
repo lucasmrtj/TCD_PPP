@@ -122,7 +122,6 @@ public abstract class AbstractBoard extends JPanel {
     		}
 
     		if (player.isDying()) {
-
     			player.die();
     			inGame = false;
     		}

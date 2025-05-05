@@ -221,14 +221,9 @@ public class FreezeMonstersBoard extends AbstractBoard {
     private void playerHit(Player player) {
         // Configura o estado de "dying" como no SpaceInvaders
         ImageIcon explosionIcon = new ImageIcon("images/explosion.png");
-        Image scale = explosionIcon.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
+        Image scale = explosionIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
         player.setImage(scale);
         player.setDying(true);
-
-        // Finaliza o jogo
-        inGame = false;
-        timer.stop();
-        message = "Game Over!";
     }
 
     protected void processOtherSprites(Player player, KeyEvent e){
