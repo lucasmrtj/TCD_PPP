@@ -1,7 +1,10 @@
 package spriteframework;
 
+import spriteframework.gamedirection.GameDirection;
+
 // Essa classe é uma classe singleton
 public class GameConfig {
+    private GameDirection gameDirection;
 
     private int BORDER_WIDTH;
     private int BORDER_HEIGHT;
@@ -17,6 +20,14 @@ public class GameConfig {
 
     protected void setBORDER_HEIGHT(int BORDER_HEIGHT) {
         this.BORDER_HEIGHT = BORDER_HEIGHT;
+    }
+
+    protected void setGameDirection(GameDirection gameDirection) {
+        this.gameDirection = gameDirection;
+    }
+
+    public GameDirection getGameDirection(){
+        return gameDirection;
     }
 
     public int getDELAY() {

@@ -1,5 +1,10 @@
 package spaceinvaders;
 
+import spriteframework.GameConfig;
+import spriteframework.gamedirection.Bidimensional;
+import spriteframework.gamedirection.GameDirection;
+import spriteframework.gamedirection.Quadimensional;
+
 public class SpaceInvadersConfig extends spriteframework.GameConfig{
     private static SpaceInvadersConfig instance;
 
@@ -22,8 +27,9 @@ public class SpaceInvadersConfig extends spriteframework.GameConfig{
     private String PLAYER_IMAGE = "/player.png";
 
     private SpaceInvadersConfig(){
-        setBORDER_HEIGHT(500);
-        setBORDER_WIDTH(500);
+        setBORDER_HEIGHT(358);
+        setBORDER_WIDTH(300);
+        setGameDirection(new Quadimensional());
     }
 
     public static SpaceInvadersConfig getInstance() {

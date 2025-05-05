@@ -7,6 +7,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 
 import spriteframework.AbstractBoard;
+import spriteframework.gamedirection.GameDirection;
 import spriteframework.sprite.BadSprite;
 import spriteframework.sprite.Player;
 
@@ -236,6 +237,10 @@ public class SpaceInvadersBoard extends AbstractBoard {
 
     protected int getINIT_PLAYER_Y(){
         return SpaceInvadersConfig.getInstance().getINIT_PLAYER_Y();
+    }
+
+    protected GameDirection getGameDirection(){
+        return SpaceInvadersConfig.getInstance().getGameDirection();
     }
 }
 

@@ -1,7 +1,9 @@
 package freezemonsters;
 
 import freezemonsters.sprite.*;
+import spaceinvaders.SpaceInvadersConfig;
 import spriteframework.AbstractBoard;
+import spriteframework.gamedirection.GameDirection;
 import spriteframework.sprite.Player;
 
 import java.awt.*;
@@ -35,18 +37,19 @@ public class FreezeMonstersBoard extends AbstractBoard {
         ;
     }
 
-    @Override
-    public int getDelay(){
+    protected int getDelay(){
         return 1;
     }
 
-    @Override
-    public int getINIT_PLAYER_X(){
+    protected int getINIT_PLAYER_X(){
         return 1;
     }
 
-    @Override
-    public int getINIT_PLAYER_Y(){
+    protected int getINIT_PLAYER_Y(){
         return 1;
+    }
+
+    protected GameDirection getGameDirection(){
+        return SpaceInvadersConfig.getInstance().getGameDirection();
     }
 }

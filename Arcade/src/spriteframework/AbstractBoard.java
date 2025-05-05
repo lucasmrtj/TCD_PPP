@@ -4,6 +4,7 @@ package spriteframework;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import spriteframework.gamedirection.GameDirection;
 import spriteframework.sprite.BadSprite;
 import spriteframework.sprite.Player;
 
@@ -45,18 +46,22 @@ public abstract class AbstractBoard extends JPanel {
     protected abstract void update();
     protected abstract void processOtherSprites(Player player, KeyEvent e);
     protected abstract int getDelay();
+    protected abstract GameDirection getGameDirection();
     protected abstract int getINIT_PLAYER_X();
     protected abstract int getINIT_PLAYER_Y();
 
     protected String playerImage;
     protected int BOARD_HEIGHT;
     protected int BOARD_WIDTH;
+    protected int GAME_DIRECTION;
 
     public AbstractBoard(String playerImage, int BOARD_HEIGHT, int BOARD_WIDTH) {
         // Para facilitar a vida na hora de montar o board
         this.playerImage = playerImage;
         this.BOARD_HEIGHT = BOARD_HEIGHT;
         this.BOARD_WIDTH = BOARD_WIDTH;
+        // this.GAME_DIRECTION = getGameDirection();
+
         System.out.println(getDelay());
         initBoard();
         numberPlayers = 1;
@@ -90,7 +95,7 @@ public abstract class AbstractBoard extends JPanel {
 	}
 	
 	protected Player createPlayer() {
-		return new Player(playerImage, BOARD_HEIGHT, BOARD_WIDTH, getINIT_PLAYER_X(), getINIT_PLAYER_Y());
+		return new Player(playerImage, BOARD_HEIGHT, BOARD_WIDTH, getINIT_PLAYER_X(), getINIT_PLAYER_Y(), getGameDirection());
 	}
 
     public Player getPlayer(int i) {
