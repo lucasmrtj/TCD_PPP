@@ -29,7 +29,7 @@ public class Sprite {
         return visible;
     }
 
-    protected void setVisible(boolean visible) {
+    public void setVisible(boolean visible) {
         this.visible = visible;
     }
 
@@ -104,5 +104,10 @@ public class Sprite {
     
     public void moveY(int direction) {
         this.y += direction;
+    }
+
+    public boolean isOutOfBounds(int boardWidth, int boardHeight) {
+        return getX() < 0 || getX() > boardWidth ||
+                getY() < 0 || getY() > boardHeight;
     }
 }

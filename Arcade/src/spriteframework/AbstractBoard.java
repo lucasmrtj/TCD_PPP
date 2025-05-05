@@ -35,6 +35,7 @@ public abstract class AbstractBoard extends JPanel {
     protected String message = "Game Over";
 
     protected Timer timer;
+    protected GameConfig gameConfig;
 
     // Frozen Spots
     //  void initBoard()
@@ -45,25 +46,14 @@ public abstract class AbstractBoard extends JPanel {
     protected abstract void drawOtherSprites(Graphics g);
     protected abstract void update();
     protected abstract void processOtherSprites(Player player, KeyEvent e);
-    protected abstract int getDelay();
-    protected abstract GameDirection getGameDirection();
-    protected abstract int getINIT_PLAYER_X();
-    protected abstract int getINIT_PLAYER_Y();
+    protected abstract void drawSpecificForEach(Graphics g);
 
-    protected String playerImage;
-    protected int BOARD_HEIGHT;
-    protected int BOARD_WIDTH;
-    protected int GAME_DIRECTION;
-
-    public AbstractBoard(String playerImage, int BOARD_HEIGHT, int BOARD_WIDTH) {
+    public AbstractBoard(GameConfig gameConfig) {
         // Para facilitar a vida na hora de montar o board
-        this.playerImage = playerImage;
-        this.BOARD_HEIGHT = BOARD_HEIGHT;
-        this.BOARD_WIDTH = BOARD_WIDTH;
-        // this.GAME_DIRECTION = getGameDirection();
+        this.gameConfig = gameConfig;
 
-        System.out.println(getDelay());
         initBoard();
+
         numberPlayers = 1;
         badSprites = new LinkedList<BadSprite>();
         createBadSprites();
@@ -75,10 +65,10 @@ public abstract class AbstractBoard extends JPanel {
 
     	addKeyListener(new TAdapter());
     	setFocusable(true);
-    	d = new Dimension(BOARD_WIDTH, BOARD_HEIGHT);
+    	d = new Dimension(gameConfig.getBORDER_WIDTH(), gameConfig.getBORDER_HEIGHT());
     	setBackground(Color.black);
 
-    	timer = new Timer(getDelay(), new GameCycle());
+    	timer = new Timer(gameConfig.getDelay(), new GameCycle());
     	timer.start();
 
     	createPlayers();
@@ -95,7 +85,7 @@ public abstract class AbstractBoard extends JPanel {
 	}
 	
 	protected Player createPlayer() {
-		return new Player(playerImage, BOARD_HEIGHT, BOARD_WIDTH, getINIT_PLAYER_X(), getINIT_PLAYER_Y(), getGameDirection());
+		return new Player(gameConfig);
 	}
 
     public Player getPlayer(int i) {
@@ -158,11 +148,7 @@ public abstract class AbstractBoard extends JPanel {
 
         if (inGame) {
 
-            // Isso precisa sair daqui para podermos implentar mais variabilidade
-            /*
-            g.drawLine(0, Commons.GROUND, Commons.BOARD_WIDTH, Commons.GROUND);
-             */
-
+            drawSpecificForEach(g);
             drawBadSprites(g);
             drawPlayers(g);
             drawOtherSprites(g);
@@ -178,20 +164,20 @@ public abstract class AbstractBoard extends JPanel {
 
     private void gameOver(Graphics g) {
         g.setColor(Color.black);
-        g.fillRect(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
+        g.fillRect(0, 0, gameConfig.getBORDER_WIDTH(), gameConfig.getBORDER_HEIGHT());
 
         g.setColor(new Color(0, 32, 48));
-        g.fillRect(50, BOARD_WIDTH / 2 - 30, BOARD_WIDTH - 100, 50);
+        g.fillRect(50, gameConfig.getBORDER_WIDTH() / 2 - 30, gameConfig.getBORDER_HEIGHT() - 100, 50);
         g.setColor(Color.white);
-        g.drawRect(50, BOARD_WIDTH / 2 - 30, BOARD_WIDTH - 100, 50);
+        g.drawRect(50, gameConfig.getBORDER_WIDTH() / 2 - 30, gameConfig.getBORDER_HEIGHT() - 100, 50);
 
         Font small = new Font("Helvetica", Font.BOLD, 14);
         FontMetrics fontMetrics = this.getFontMetrics(small);
 
         g.setColor(Color.white);
         g.setFont(small);
-        g.drawString(message, (BOARD_WIDTH - fontMetrics.stringWidth(message)) / 2,
-                BOARD_WIDTH / 2);
+        g.drawString(message, (gameConfig.getBORDER_WIDTH() - fontMetrics.stringWidth(message)) / 2,
+                gameConfig.getBORDER_WIDTH() / 2);
     }
 
     private void doGameCycle() {

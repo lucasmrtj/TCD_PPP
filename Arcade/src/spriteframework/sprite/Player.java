@@ -2,41 +2,44 @@ package spriteframework.sprite;
 
 import javax.swing.ImageIcon;
 
+import spriteframework.Direction;
 import spriteframework.GameConfig;
-import spriteframework.gamedirection.GameDirection;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 
 public class Player extends Sprite {
     private int width;
     private int height;
-    protected int BOARD_HEIGHT, BOARD_WIDTH;
-    protected int INIT_PLAYER_X, INIT_PLAYER_Y;
-    protected GameDirection gameDirection;
+    protected GameConfig gameConfig;
+    private Direction facingDirection = Direction.RIGHT;
 
-    public Player(String playerImage, int BOARD_HEIGHT, int BOARD_WIDTH, int INIT_PLAYER_X, int INIT_PLAYER_Y, GameDirection gameDirection) {
+    public Player(GameConfig gameConfig) {
         super();
+        this.gameConfig = gameConfig;
 
-        // ISSOS AQUI SAI para colocar em Game Direction
-        this.BOARD_HEIGHT = BOARD_HEIGHT;
-        this.BOARD_WIDTH = BOARD_WIDTH;
-        this.INIT_PLAYER_X = INIT_PLAYER_X;
-        this.INIT_PLAYER_Y = INIT_PLAYER_Y;
-        this.gameDirection = gameDirection;
-
-        loadImage(playerImage);
+        loadImage(gameConfig.getPLAYER_IMAGE(), gameConfig.getPLAYER_WIDTH(), gameConfig.getPLAYER_HEIGHT());
 		getImageDimensions();
 		resetState();
     }
 
-    protected void loadImage (String playerImage) {
-        ImageIcon ii = new ImageIcon(this.getClass().getResource(playerImage));
-        width = ii.getImage().getWidth(null);
-        height = ii.getImage().getHeight(null);
-        setImage(ii.getImage());
+    private void loadImage(String imagePath, int targetWidth, int targetHeight) {
+        ImageIcon originalIcon = new ImageIcon(getClass().getResource(imagePath));
+        Image originalImage = originalIcon.getImage();
+
+        // Redimensione a imagem
+        Image scaledImage = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
+
+        // Atualize a imagem e dimensões do sprite
+        setImage(scaledImage);
+        this.width = targetWidth;
+        this.height = targetHeight;
     }
     
     public void act() {
+        int BOARD_WIDTH = gameConfig.getBORDER_WIDTH();
+        int BOARD_HEIGHT = gameConfig.getBORDER_HEIGHT();
+
         x += dx;
         y += dy;
 
@@ -56,7 +59,21 @@ public class Player extends Sprite {
     }
 
     public void keyPressed(KeyEvent e) {
-        gameDirection.move(e, this);
+        gameConfig.getGameDirection().move(e, this);
+        switch (e.getKeyCode()){
+            case KeyEvent.VK_LEFT:
+                facingDirection = Direction.LEFT;
+                break;
+            case KeyEvent.VK_RIGHT:
+                facingDirection = Direction.RIGHT;
+                break;
+            case KeyEvent.VK_UP:
+                facingDirection = Direction.UP;
+                break;
+            case KeyEvent.VK_DOWN:
+                facingDirection = Direction.DOWN;
+                break;
+        }
     }
 
     public void keyReleased(KeyEvent e) {
@@ -75,7 +92,11 @@ public class Player extends Sprite {
 
     private void resetState() {
 
-        setX(INIT_PLAYER_X);
-        setY(INIT_PLAYER_Y);
+        setX(gameConfig.getINIT_PLAYER_X());
+        setY(gameConfig.getINIT_PLAYER_Y());
+    }
+
+    public Direction getFacingDirection(){
+        return facingDirection;
     }
 }

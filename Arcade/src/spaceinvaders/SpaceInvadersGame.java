@@ -7,24 +7,16 @@ import spriteframework.GameConfig;
 import spriteframework.MainFrame;
 
 public class SpaceInvadersGame extends MainFrame {
-
-
 	public SpaceInvadersGame () {
 		super("Space Invaders");
 	}
 	
 	protected AbstractBoard createBoard() {
-		return new SpaceInvadersBoard(getBoardHeight(), getBoardWidth());
+		return new SpaceInvadersBoard(getGameConfig());
 	}
 
-	@Override
-	protected int getBoardWidth() {
-		return SpaceInvadersConfig.getInstance().getBORDER_WIDTH();
-	}
-
-	@Override
-	protected int getBoardHeight() {
-		return SpaceInvadersConfig.getInstance().getBORDER_HEIGHT();
+	protected GameConfig getGameConfig() {
+		return SpaceInvadersConfig.getInstance();
 	}
 
 	public static void main(String[] args) {

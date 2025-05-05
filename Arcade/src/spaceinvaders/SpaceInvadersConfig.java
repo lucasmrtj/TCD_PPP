@@ -21,15 +21,16 @@ public class SpaceInvadersConfig extends spriteframework.GameConfig{
     private int NUMBER_OF_ALIENS_COL = 6;
     private int NUMBER_OF_ALIENS_TO_DESTROY = NUMBER_OF_ALIENS_ROW * NUMBER_OF_ALIENS_COL;
     private int CHANCE = 5;
-    private int PLAYER_WIDTH = 15;
-    private int PLAYER_HEIGHT = 10;
-
-    private String PLAYER_IMAGE = "/player.png";
 
     private SpaceInvadersConfig(){
         setBORDER_HEIGHT(358);
         setBORDER_WIDTH(300);
-        setGameDirection(new Quadimensional());
+        setPlayerImage("/player.png");
+        setINIT_PLAYER_X(270);
+        setINIT_PLAYER_Y(280);
+        setPLAYER_WIDTH(15);
+        setPLAYER_HEIGHT(10);
+        setGameDirection(new Bidimensional());
     }
 
     public static SpaceInvadersConfig getInstance() {
@@ -37,18 +38,6 @@ public class SpaceInvadersConfig extends spriteframework.GameConfig{
             instance = new SpaceInvadersConfig();
         }
         return instance;
-    }
-
-    public String getPLAYER_IMAGE() {
-        return PLAYER_IMAGE;
-    }
-
-    public int getPLAYER_HEIGHT() {
-        return PLAYER_HEIGHT;
-    }
-
-    public int getPLAYER_WIDTH() {
-        return PLAYER_WIDTH;
     }
 
     public int getCHANCE() {

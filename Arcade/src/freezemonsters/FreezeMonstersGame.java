@@ -1,7 +1,7 @@
 package freezemonsters;
 
-import spaceinvaders.SpaceInvadersConfig;
 import spriteframework.AbstractBoard;
+import spriteframework.GameConfig;
 import spriteframework.MainFrame;
 
 import java.awt.*;
@@ -12,17 +12,11 @@ public class FreezeMonstersGame extends MainFrame {
     }
 
     protected AbstractBoard createBoard() {
-        return new FreezeMonstersBoard(getBoardHeight(), getBoardWidth());
+        return new FreezeMonstersBoard(getGameConfig());
     }
 
-    @Override
-    protected int getBoardWidth() {
-        return FreezeMonstersConfig.getInstance().getBORDER_WIDTH();
-    }
-
-    @Override
-    protected int getBoardHeight() {
-        return FreezeMonstersConfig.getInstance().getBORDER_HEIGHT();
+    protected GameConfig getGameConfig(){
+        return FreezeMonstersConfig.getInstance();
     }
 
     public static void main(String[] args) {
