@@ -136,11 +136,31 @@ public class FreezeMonstersBoard extends AbstractBoard {
             // Verifica colisão com monstros
             for (BadSprite badSprite : badSprites) {
                 if (badSprite.isVisible() &&
-                        ray.isCollidingWith((Monsters) badSprite) &&
+                        ray.isCollidingWith(badSprite) &&
                         !((Monsters) badSprite).isFrozen()) {
 
                     ((Monsters)badSprite).freeze();
                     ray.setVisible(false);
+                    break;
+                }
+            }
+
+            // Verifica colisao com gosmas
+            Iterator<Gosma> iterator = activeGosmas.iterator();
+            while (iterator.hasNext()) {
+                Gosma gosma = iterator.next();
+
+                if(gosma.isVisible() &&
+                        ray.isCollidingWith(gosma)){
+                    iterator.remove();
+                    ray.setVisible(false);
+                    break;
+                }
+            }
+            for(Gosma gosma : activeGosmas){
+                if(gosma.isVisible() &&
+                    ray.isCollidingWith(gosma)){
+                    gosma.setVisible(false);
                     break;
                 }
             }

@@ -75,19 +75,19 @@ public class Ray extends BadSprite {
                 getY() < 0 || getY() > boardHeight;
     }
 
-    public boolean isCollidingWith(Monsters monster) {
-        if (this.isVisible() && monster.isVisible()) {
+    public boolean isCollidingWith(BadSprite sprite) {
+        if (this.isVisible() && sprite.isVisible()) {
             int rayX = this.getX();
             int rayY = this.getY();
-            int monsterX = monster.getX();
-            int monsterY = monster.getY();
-            int monsterWidth = monster.getImage().getWidth(null);
-            int monsterHeight = monster.getImage().getHeight(null);
+            int badSpriteX = sprite.getX();
+            int badSpriteY = sprite.getY();
+            int badSpriteWidth = sprite.getImage().getWidth(null);
+            int badSpriteHeight = sprite.getImage().getHeight(null);
 
-            return (rayX >= monsterX) &&
-                    (rayX <= (monsterX + monsterWidth)) &&
-                    (rayY >= monsterY) &&
-                    (rayY <= (monsterY + monsterHeight));
+            return (rayX >= badSpriteX) &&
+                    (rayX <= (badSpriteX + badSpriteWidth)) &&
+                    (rayY >= badSpriteY) &&
+                    (rayY <= (badSpriteY + badSpriteHeight));
         }
         return false;
     }
